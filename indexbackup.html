@@ -9,10 +9,13 @@
 
 <title>Maximum Fire</title>
 
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="stylebackuo.css">
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
+<script src="firebase-config.js"></script>
 </head>
 
 <body>
@@ -86,6 +89,15 @@
 
 <h2>Letzte 7 Tage</h2>
 
+<button onclick="previousWeek()">
+⬅
+</button>
+
+
+<button onclick="nextWeek()">
+⮕
+</button>
+
 <canvas id="weekChart"></canvas>
 
 </section>
@@ -96,7 +108,7 @@
 
 <button>🏠<br>Start</button>
 
-<button onclick="window.location.href='kalender.html'">
+<button onclick="window.location.href='kalenderbackup.html'">
     📅<br>Kalender
 </button>
 
@@ -107,7 +119,7 @@
 
 </nav>
 
-<script src="script.js"></script>
+<script src="sriptbackuo.js"></script>
 
 </body>
 
