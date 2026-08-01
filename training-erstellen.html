@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Maximum Fire - Training erstellen</title>
+
+<link rel="stylesheet" href="stylebackuo.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
+<script src="firebase-config.js"></script>
+</head>
+
+
+<body>
+
+<header>
+
+<h1>Maximum Fire</h1>
+<p class="slogan">Train smart and hard</p>
+
+</header>
+
+
+<main>
+
+<a href="kalenderbackup.html" class="back-button">
+← Zurück zum Kalender
+</a>
+
+<section class="card">
+
+<h2>🚴 Training erstellen</h2>
+
+
+<label>Name</label>
+
+<input id="trainingName" placeholder="Name des Trainings">
+
+<label>Beschreibung:</label>
+
+<input id="beschreibung" placeholder="hab Spaß">
+
+
+<h3>Trainingsbereiche</h3>
+
+
+<div id="intervals"></div>
+
+
+<button class="plus" onclick="addInterval()">
++
+</button>
+<button class="chart-btn" onclick="saveTraining()">
+💾 Training speichern
+</button>
+
+</section>
+
+
+
+<section class="card">
+
+<h2>📈 Trainingsdiagramm</h2>
+
+
+<div class="chart-wrapper">
+
+<canvas id="trainingChart"></canvas>
+
+
+
+</div>
+
+
+</section>
+
+<section class="card">
+  <h2>🗒️Notizen</h2>
+  <label>Notiz:</label>
+  <input id="Notiz" placeholder="Notiz hinzufügen">
+  
+</section>
+<button class="chart-btn" onclick="saveNote()">
+💾 Notiz speichern
+</button>
+
+</main>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="training-erstellen.js"></script>
+
+</body>
+
+</html>
