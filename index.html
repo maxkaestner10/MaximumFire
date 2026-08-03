@@ -9,13 +9,16 @@
 
 <title>Maximum Fire</title>
 
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="stylebackuo.css">
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
 
 <script src="firebase-config.js"></script>
+<script src="auth-helper.js"></script>
+<script src="data-manager.js"></script>
 </head>
 
 <body>
@@ -106,20 +109,19 @@
 
 <nav>
 
-<button>🏠<br>Start</button>
+<button class="active">🏠<br>Start</button>
 
-<button onclick="window.location.href='kalender.html'">
+<button onclick="window.location.href='kalenderbackup.html'">
     📅<br>Kalender
 </button>
 
 
-<button>📊<br>Statistik</button>
-
-<button>👤<br>Profil</button>
+<button onclick="window.location.href='statistiken.html'">📊<br>Statistik</button>
+<button onclick="window.location.href='profil.html'">👤<br>Profil</button>
 
 </nav>
 
-<script src="sript.js"></script>
+<script src="sriptbackuo.js"></script>
 
 </body>
 

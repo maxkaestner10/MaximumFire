@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Maximum Fire - Training</title>
+
+<link rel="stylesheet" href="stylebackuo.css">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+
+<script src="firebase-config.js"></script>
+<script src="auth-helper.js"></script>
+<script src="data-manager.js"></script>
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">
+<h1>Maximum Fire</h1>
+<p class="slogan">TRAIN SMART AND HARD</p>
+</div>
+
+</header>
+
+<main>
+
+<a href="kalenderbackup.html" class="back-button">
+← Zurück zum Kalender
+</a>
+
+<!-- Trainingskopf -->
+
+<section class="card">
+
+<div class="training-header">
+
+<div>
+
+<h2>🚵 MTB Grundlagenausdauer</h2>
+
+<p class="training-date">
+15. August 2026
+</p>
+
+</div>
+
+<div class="status">
+ABSOLVIERT
+</div>
+
+</div>
+
+</section>
+
+<!-- Allgemein -->
+
+<section class="card">
+
+<h2>📊 Allgemein</h2>
+
+<div class="stats-grid">
+
+<div class="stat-box">
+<span>Distanz</span>
+<strong>58 km</strong>
+</div>
+
+<div class="stat-box">
+<span>Dauer</span>
+<strong>2:05 h</strong>
+</div>
+
+<div class="stat-box">
+<span>Bewegungszeit</span>
+<strong>2:01 h</strong>
+</div>
+
+<div class="stat-box">
+<span>Kalorien</span>
+<strong>1580 kcal</strong>
+</div>
+
+<div class="stat-box">
+<span>Ø Leistung</span>
+<strong>248 W</strong>
+</div>
+
+<div class="stat-box">
+<span>Ø Puls</span>
+<strong>163 bpm</strong>
+</div>
+
+<div class="stat-box">
+<span>Ø Geschwindigkeit</span>
+<strong>27,8 km/h</strong>
+</div>
+
+
+<div class="stat-box">
+<span>Temperatur</span>
+<strong>24 °C</strong>
+</div>
+
+</div>
+
+</section>
+
+<!-- Belastung -->
+
+<section class="card">
+
+<h2>🔥 Belastung</h2>
+
+<div class="stats-grid">
+
+<div class="stat-box">
+<span>TSS</span>
+<strong>118</strong>
+</div>
+
+
+<div class="stat-box">
+<span>IF</span>
+<strong>0,82</strong>
+</div>
+
+
+<div class="stat-box">
+<span>Trainingslast</span>
+<strong>Hoch</strong>
+</div>
+
+<div class="stat-box">
+<span>Erholung</span>
+<strong>36 h</strong>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- Beschreibung -->
+
+<section class="card">
+
+<h2>📝 Trainingsbeschreibung</h2>
+
+<div class="description-box">
+
+<p>
+4 × 8 Minuten Sweetspot.
+</p>
+
+<p>
+Zwischen den Intervallen jeweils 4 Minuten locker rollen.
+</p>
+
+<p>
+Ziel:
+Konstante Leistung halten und die aerobe Schwelle verbessern.
+</p>
+
+</div>
+
+
+
+<!-- Diagramm -->
+<section class="card">
+
+    <h2>📈 Diagramm</h2>
+
+    <div class="chart-buttons">
+
+        <button class="chart-btn active" onclick="changeChart('power')">
+            ⚡ Watt
+        </button>
+
+        <button class="chart-btn" onclick="changeChart('hr')">
+            ❤️ Puls
+        </button>
+
+        <button class="chart-btn" onclick="changeChart('height')">
+            ⛰ Höhe
+        </button>
+
+        <button class="chart-btn" onclick="changeChart('speed')">
+            🚴 Geschwindigkeit
+        </button>
+
+        <button class="chart-btn" onclick="changeChart('cadence')">
+            🔄 Kadenz
+        </button>
+
+    </div>
+
+    <div class="chart-wrapper">
+        <canvas id="trainingChart"></canvas>
+    </div>
+
+</section>
+
+<section class="card">
+
+    <h2 id="analysisTitle">⚡ Wattanalyse</h2>
+
+    <div id="analysisGrid" class="stats-grid"></div>
+
+</section>
+
+<section class="card">
+    <h3>🗺 Karte</h3>
+    <div class="map-placeholder">
+        <p>GPS-Karte folgt später</p>
+    </div>
+</section>
+
+
+
+</main>
+
+<nav>
+
+<button onclick="window.location.href='index.html'">
+🏠<br>Start
+</button>
+
+<button onclick="window.location.href='kalenderbackup.html'">
+📅<br>Kalender
+</button>
+
+<button onclick="window.location.href='statistiken.html'">📊<br>Statistik</button>
+
+<button onclick="window.location.href='profil.html'">👤<br>Profil</button>
+
+</nav>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="training.js"></script>
+
+</body>
+
+</html>
