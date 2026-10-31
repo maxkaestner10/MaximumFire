@@ -28,17 +28,22 @@
     <section class="card">
         
         <div id="viewGesundheit" style="display: none;">
-            <h2>❤️ Gesundheit</h2>
+            <!-- Überschrift & Button direkt nebeneinander -->
+            <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;"> 
+                <h2 style="margin: 0;">❤️ Gesundheit</h2>
+
+                <button onclick="openAddModal()" style="background: #111; color: white; border: none; padding: 8px 12px; border-radius: 10px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 5px;">
+                    <span style="font-size: 18px;">+</span> Messung
+                </button>
+            </div>
+                
 
             <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; margin-top: 15px;">
                 <div class="chart-buttons" style="display: flex; gap: 8px; flex: 1; min-width: 200px;">
-                    <button id="btnRuhepuls" class="chart-btn active" onclick="selectHealthMetric('ruhepuls')" style="flex: 1; padding: 12px 5px; font-weight: bold;">❤️ Ruhepuls</button>
-                    <button id="btnGewicht" class="chart-btn" onclick="selectHealthMetric('gewicht')" style="flex: 1; padding: 12px 5px; font-weight: bold;">⚖️ Gewicht</button>
+                    <button id="btnRuhepuls" class="chart-btn active" onclick="selectHealthMetric('ruhepuls')" style="flex: 1; padding: 12px 5px; font-weight: bold;">Ruhepuls</button>
+                    <button id="btnGewicht" class="chart-btn" onclick="selectHealthMetric('gewicht')" style="flex: 1; padding: 12px 5px; font-weight: bold;">Gewicht</button>
+                    <button id="btnHRV" class="chart-btn" onclick="selectHealthMetric('hrv')" style="flex: 1; padding: 12px 5px; font-weight: bold;">HRV</button>
                 </div>
-
-                <button onclick="openAddModal()" style="background: #111; color: white; border: none; padding: 12px 15px; border-radius: 10px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 5px;">
-                    <span style="font-size: 18px;">+</span> Messung
-                </button>
             </div>
 
             <div style="display: flex; flex-direction: column; gap: 15px; margin-bottom: 20px;">
@@ -82,8 +87,7 @@
                 <button id="btnHf" class="chart-btn" onclick="selectZoneMetric('hf')" style="flex: 1; padding: 12px; font-weight: bold;">❤️ Hf (Puls)</button>
             </div>
 
-            <div id="zonesContainer" style="display: flex; flex-direction: column; gap: 12px;">
-                </div>
+            <div id="zonesContainer" style="display: flex; flex-direction: column; gap: 12px;"></div>
         </div>
 
     </section>
