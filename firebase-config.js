@@ -1,20 +1,19 @@
-import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-TODO: Add SDKs for Firebase products that you want to use
- https://firebase.google.com/docs/web/setup#available-libraries
+// =======================================
+// Maximum Fire - firebase-config.js
+// =======================================
 
- Your web app's Firebase configuration
- For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  <const firebaseConfig = {
-      apiKey: "AIzaSyAKUTkRHThhoyjw-UWlUWoKBNcadwwNB0U",
+const firebaseConfig = {
+    apiKey: "AIzaSyAKUTkRHThhoyjw-UWlUWoKBNcadwwNB0U",
     authDomain: "maximumfiremax.firebaseapp.com",
     projectId: "maximumfiremax",
     storageBucket: "maximumfiremax.firebasestorage.app",
     messagingSenderId: "356373963033",
-    appId: "1:356373963033:web:1aa879f1c6a3cc21632588",
-    measurementId: "G-VWZ8GXWQV4" 
-    };
-Initialize Firebase
- const app = initializeApp(firebaseConfig);
- const analytics = getAnalytics(app);
+    appId: "1:356373963033:web:1aa879f1c6a3cc21632588"
+};
+
+// Firebase initialisieren
+firebase.initializeApp(firebaseConfig);
+
+// Zugriff auf die Firestore Datenbank bereitstellen
+const db = firebase.firestore();
+console.log("Firebase erfolgreich verbunden!");
