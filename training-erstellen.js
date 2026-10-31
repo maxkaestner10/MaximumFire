@@ -1,16 +1,51 @@
-console.log("training-erstellen.js läuft");
+console.log("training-erstellen.js - NEUE VERSION LÄUFT");
 
 let trainingChart;
-
-// 1. Array für die Intervalle muss VOR der ersten Nutzung definiert sein!
 let intervals = []; 
 
-// Bereiche anzeigen
+function getLocalISODate(dateObj = new Date()) {
+    const year = dateObj.getFullYear();
+    const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+    const day = String(dateObj.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+}
+
+// --------------------------------------------------
+// Sportart Modal Steuerung
+// --------------------------------------------------
+function openSportModal() {
+    const modal = document.getElementById("sportModal");
+    if (modal) modal.style.display = "flex";
+}
+
+function closeSportModal() {
+    const modal = document.getElementById("sportModal");
+    if (modal) modal.style.display = "none";
+}
+
+function closeSportModalOnOutsideClick(event) {
+    if (event.target.id === "sportModal") {
+        closeSportModal();
+    }
+}
+
+function selectSport(value, label) {
+    const hiddenInput = document.getElementById("sportart");
+    const textSpan = document.getElementById("selectedSportText");
+    if (hiddenInput) hiddenInput.value = value;
+    if (textSpan) textSpan.innerText = label || value;
+    closeSportModal();
+}
+
+// --------------------------------------------------
+// Bereiche (Intervalle) rendern
+// --------------------------------------------------
 function renderIntervals(){
     const box = document.getElementById("intervals");
+    if (!box) return;
     box.innerHTML = "";
 
-    intervals.forEach((item,index)=>{
+    intervals.forEach((item, index) => {
         let div = document.createElement("div");
         div.className = "stat-box";
 
@@ -21,14 +56,14 @@ function renderIntervals(){
 
         <label>Messwert</label>
         <select onchange="updateInterval(${index},'type',this.value)">
-            <option ${item.type=="Watt"?"selected":""}>Watt</option>
-            <option ${item.type=="Puls"?"selected":""}>Puls</option>
+            <option ${item.type == "Watt" ? "selected" : ""}>Watt</option>
+            <option ${item.type == "Puls" ? "selected" : ""}>Puls</option>
         </select>
 
         <label>Wert</label>
         <input type="number" value="${item.value}" onchange="updateInterval(${index},'value',this.value)">
 
-        <button onclick="removeInterval(${index})">Löschen</button>
+        <button onclick="removeInterval(${index})" style="margin-top:10px; background:#d32f2f; color:white; border:none; padding:5px 10px; border-radius:5px;">Löschen</button>
         `;
         box.appendChild(div);
     });
@@ -36,7 +71,6 @@ function renderIntervals(){
     updateChart();
 }
 
-// neuen Bereich hinzufügen
 function addInterval(){
     intervals.push({
         time: 10,
@@ -45,41 +79,36 @@ function addInterval(){
     });
 
     renderIntervals();
-    document.getElementById("intervals").scrollTop = document.getElementById("intervals").scrollHeight;
+    const box = document.getElementById("intervals");
+    if (box) box.scrollTop = box.scrollHeight;
 }
 
-// Werte ändern
 function updateInterval(index, key, value){
-    // Wandle Eingaben in Zahlen um, falls es Zeit oder Wert ist
     intervals[index][key] = (key === 'time' || key === 'value') ? Number(value) : value;
     updateChart();
 }
 
-// Bereich löschen
 function removeInterval(index){
     intervals.splice(index, 1);
     renderIntervals();
 }
 
-// Diagramm updaten
 function updateChart(){
     const data = [];
     let time = 0;
 
-    intervals.forEach((item)=>{
-        // Start des Bereichs
+    intervals.forEach((item) => {
         data.push({ x: time, y: item.value });
-        // Ende des Bereichs
         time += item.time;
         data.push({ x: time, y: item.value });
     });
 
-    if(trainingChart){
+    if (trainingChart) {
         trainingChart.destroy();
     }
 
     const ctx = document.getElementById("trainingChart");
-    if(!ctx) return; // Falls Canvas nicht gefunden wird, Abbruch
+    if (!ctx) return;
 
     trainingChart = new Chart(ctx, {
         type: "line",
@@ -90,7 +119,7 @@ function updateChart(){
                 borderColor: "#ff7a00",
                 backgroundColor: "rgba(255,122,0,0.2)",
                 fill: false,
-                stepped: true, // Macht das typische "Block"-Diagramm für Intervalle
+                stepped: true,
                 borderWidth: 3
             }]
         },
@@ -110,36 +139,114 @@ function updateChart(){
     });
 }
 
-// 2. Hier ist die fehlende Funktion für den Button "Training speichern"
-function saveTraining() {
-    const name = document.getElementById("trainingName").value;
-    const beschreibung = document.getElementById("beschreibung").value;
-    
-    // Einfache Überprüfung, ob überhaupt etwas eingegeben wurde
-    if(name === "" || intervals.length === 0) {
-        alert("Bitte gib dem Training einen Namen und füge mindestens ein Intervall hinzu.");
+// --------------------------------------------------
+// 💾 Speicher-Logik
+// --------------------------------------------------
+
+async function appendItemToDayIndex(isoDate, itemId) {
+    const indexId = `day_${isoDate}`;
+    let dayIndex = await loadDocument("day_indexes", indexId);
+    let itemIds = dayIndex ? (dayIndex.itemIds || []) : [];
+
+    if (!itemIds.includes(itemId)) {
+        itemIds.push(itemId);
+        await saveDocument("day_indexes", indexId, { itemIds });
+    }
+}
+
+async function saveTraining() {
+    const nameInput = document.getElementById("trainingName");
+    const beschreibungInput = document.getElementById("beschreibung");
+    const sportartInput = document.getElementById("sportart");
+    const trainerInput = document.getElementById("trainer");
+    const datumInput = document.getElementById("trainingDatum");
+
+    const name = nameInput ? nameInput.value.trim() : "";
+    const beschreibung = beschreibungInput ? beschreibungInput.value.trim() : "";
+    const sportart = sportartInput ? sportartInput.value : "MTB";
+    const trainer = trainerInput ? trainerInput.value.trim() : "";
+    const datum = datumInput && datumInput.value ? datumInput.value : getLocalISODate();
+
+    if (name === "") {
+        alert("Bitte gib dem Training einen Namen.");
         return;
     }
 
-    // Hier würden wir später Firebase einbauen!
-    // Vorerst zeigen wir nur eine Bestätigung an:
-    let speichern = confirm("Training '" + name + "' wurde gespeichert!\nZurück zum Kalender?");
+    // 🔥 Eindeutige ID mit Zeitstempel (verhindert das Überschreiben!)
+    const timestamp = Date.now();
+    const workoutId = `workout_${datum}_${timestamp}`;
     
-    if(speichern){
-        window.location.href = "kalenderbackup.html";
+    const workoutData = {
+        datum: datum,
+        name: name,
+        beschreibung: beschreibung,
+        sportart: sportart,
+        trainer: trainer,
+        intervals: intervals,
+        status: "GEPLANT",
+        updatedAt: new Date().toISOString()
+    };
+
+    try {
+        await saveDocument("workouts", workoutId, workoutData);
+        await appendItemToDayIndex(datum, workoutId); 
+        
+        alert(`✅ Training '${name}' wurde gespeichert!`);
+        window.location.href = `trainingbackup.html?date=${datum}`;
+    } catch (err) {
+        console.error("Fehler beim Speichern:", err);
+        alert("Fehler beim Speichern des Trainings.");
     }
 }
 
-// Speichern Notiz
-function saveNote(){
-    let speichern = confirm("Notiz gespeichert!");
-    if(speichern){
-        window.location.href="kalenderbackup.html";
+async function saveNote() {
+    const notizInput = document.getElementById("Notiz");
+    const datumInput = document.getElementById("trainingDatum");
+    
+    const text = notizInput ? notizInput.value.trim() : "";
+    const datum = datumInput && datumInput.value ? datumInput.value : getLocalISODate();
+
+    if (text === "") {
+        alert("Bitte schreibe etwas in das Notiz-Feld.");
+        return;
+    }
+
+    const timestamp = Date.now();
+    const noteId = `note_${datum}_${timestamp}`;
+    
+    const noteData = {
+        datum: datum,
+        text: text,
+        updatedAt: new Date().toISOString()
+    };
+
+    try {
+        await saveDocument("notes", noteId, noteData);
+        await appendItemToDayIndex(datum, noteId); 
+        
+        alert(`✅ Notiz wurde gespeichert!`);
+        window.location.href = `trainingbackup.html?date=${datum}`;
+    } catch (err) {
+        console.error("Fehler beim Speichern der Notiz:", err);
+        alert("Fehler beim Speichern der Notiz.");
     }
 }
 
-// Start
-document.addEventListener("DOMContentLoaded",()=>{
-    // Startet mit einem leeren Diagramm oder man könnte addInterval() aufrufen
-    renderIntervals();
+// Initialisierung beim Laden der Seite
+document.addEventListener("DOMContentLoaded", () => {
+    if (typeof firebase !== "undefined" && firebase.auth) {
+        firebase.auth().onAuthStateChanged(() => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const dateFromUrl = urlParams.get("date");
+            const datumInput = document.getElementById("trainingDatum");
+
+            const targetDate = dateFromUrl || getLocalISODate();
+            if (datumInput) datumInput.value = targetDate;
+
+            // 🔥 HIER ist der Fehler behoben!
+            // Es wird kein altes Training mehr geladen. Das Formular bleibt komplett leer!
+            intervals = []; 
+            renderIntervals();
+        });
+    }
 });
