@@ -8,7 +8,8 @@ const firebaseConfig = {
     projectId: "maximumfiremax",
     storageBucket: "maximumfiremax.firebasestorage.app",
     messagingSenderId: "356373963033",
-    appId: "1:356373963033:web:1aa879f1c6a3cc21632588"
+    appId: "1:356373963033:web:1aa879f1c6a3cc21632588",
+    measurementId: "G-VWZ8GXWQV4"
 };
 
 // Firebase initialisieren
