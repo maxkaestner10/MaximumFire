@@ -7,9 +7,11 @@ let currentHealthMetric = "ruhepuls";
 let currentHealthTimeframe = "7d";
 let healthTimeOffset = 0;
 
+// Konfiguration um HRV erweitert
 const healthConfig = {
     ruhepuls: { label: "Ruhepuls (bpm)", unit: "bpm", color: "#e74c3c", baseVal: 45, variance: 5 },
-    gewicht:  { label: "Gewicht (kg)",  unit: "kg",  color: "#3498db", baseVal: 75, variance: 1.5 }
+    gewicht:  { label: "Gewicht (kg)",  unit: "kg",  color: "#3498db", baseVal: 75, variance: 1.5 },
+    hrv:      { label: "HRV (ms)",       unit: "ms",  color: "#2ecc71", baseVal: 65, variance: 10 }
 };
 
 // Stammdaten für Zonen
@@ -54,13 +56,17 @@ document.addEventListener("DOMContentLoaded", () => {
 // --- GESUNDHEIT LOGIK ---
 
 function selectHealthMetric(metric) {
-    currentHealthMetric = metric;
+    currentHealthMetric = metric.toLowerCase();
     
+    // Active Class von allen Buttons entfernen
     document.getElementById("btnRuhepuls").classList.remove("active");
     document.getElementById("btnGewicht").classList.remove("active");
+    document.getElementById("btnHRV").classList.remove("active");
     
-    if (metric === "ruhepuls") document.getElementById("btnRuhepuls").classList.add("active");
-    if (metric === "gewicht") document.getElementById("btnGewicht").classList.add("active");
+    // Active Class für den ausgewählten Button setzen
+    if (currentHealthMetric === "ruhepuls") document.getElementById("btnRuhepuls").classList.add("active");
+    if (currentHealthMetric === "gewicht") document.getElementById("btnGewicht").classList.add("active");
+    if (currentHealthMetric === "hrv") document.getElementById("btnHRV").classList.add("active");
 
     updateHealthDashboard();
 }
@@ -172,7 +178,7 @@ function updateHealthChartData() {
         dataPoints = labels.length;
     }
 
-    const conf = healthConfig[currentHealthMetric];
+    const conf = healthConfig[currentHealthMetric] || healthConfig.ruhepuls;
     let demoData = [];
     for (let i = 0; i < dataPoints; i++) {
         let rand = (Math.random() * conf.variance * 2) - conf.variance;
@@ -227,15 +233,18 @@ function openAddModal() {
     const title = document.getElementById("modalTitle");
     const input = document.getElementById("measurementInput");
     
+    const conf = healthConfig[currentHealthMetric] || healthConfig.ruhepuls;
+
     if (currentHealthMetric === "ruhepuls") {
         title.innerText = "Ruhepuls eintragen";
-        unitLabel.innerText = "bpm";
-        unitLabel.style.color = "#e74c3c";
-    } else {
+    } else if (currentHealthMetric === "gewicht") {
         title.innerText = "Gewicht eintragen";
-        unitLabel.innerText = "kg";
-        unitLabel.style.color = "#3498db";
+    } else if (currentHealthMetric === "hrv") {
+        title.innerText = "HRV eintragen";
     }
+
+    unitLabel.innerText = conf.unit;
+    unitLabel.style.color = conf.color;
 
     input.value = "";
     modal.style.display = "flex";
