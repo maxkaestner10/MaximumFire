@@ -53,3 +53,4 @@ async function loadDocument(collectionName, docId) {
         return saved ? JSON.parse(saved) : null;
     }
 }
+    
